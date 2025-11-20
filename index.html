@@ -73,20 +73,22 @@
     }
 
     async function loadStandings() {
-      const rosters = await fetchJson(`${baseUrl}/league/${leagueId}/rosters`);
-      const users = await fetchJson(`${baseUrl}/league/${leagueId}/users`);
-      const userMap = {};
-users.forEach(u => userMap[u.user_id] = u.display_name || u.username);
-      // Sorting by wins might require more processing depending on API
-      let html = "<table><tr><th>Team (Owner)</th><th>Wins</th><th>Losses</th><th>Points For</th></tr>";
-      rosters.sort((a,b) => b.settings.wins - a.settings.wins)
-             .forEach(r => {
-                const owner = userMap[r.owner_id] || r.owner_id;
-                const pf = r.settings.points_for ?? 0;
-html += `<tr><td>${owner}</td><td>${r.settings.wins}</td><td>${r.settings.losses}</td><td>${pf.toFixed(2)}</td></tr>`;
-      html += "</table>";
-      document.getElementById("standingsTable").innerHTML = html;
-    }
+  const rosters = await fetchJson(`${baseUrl}/league/${leagueId}/rosters`);
+  const users = await fetchJson(`${baseUrl}/league/${leagueId}/users`);
+  const userMap = {};
+  users.forEach(u => userMap[u.user_id] = u.display_name || u.username);
+  
+  let html = "<table><tr><th>Team (Owner)</th><th>Wins</th><th>Losses</th><th>Points For</th></tr>";
+  
+  rosters.sort((a, b) => b.settings.wins - a.settings.wins).forEach(r => {
+    const owner = userMap[r.owner_id] || r.owner_id;
+    const pf = r.settings.points_for ?? 0;
+    html += `<tr><td>${owner}</td><td>${r.settings.wins}</td><td>${r.settings.losses}</td><td>${pf.toFixed(2)}</td></tr>`;
+  });
+
+  html += "</table>";
+  document.getElementById("standingsTable").innerHTML = html;
+}
 
     async function loadTransactions() {
   let html = "<table><tr><th>Week</th><th>Type</th><th>Date</th><th>Details</th></tr>";
