@@ -89,15 +89,22 @@
     }
 
     async function loadTransactions() {
-      const data = await fetchJson(`${baseUrl}/league/${leagueId}/transactions`);
-      let html = "<table><tr><th>Type</th><th>Date</th><th>Details</th></tr>";
+  let html = "<table><tr><th>Week</th><th>Type</th><th>Date</th><th>Details</th></tr>";
+  for (let week = 1; week <= 18; week++) {
+    try {
+      const data = await fetchJson(`${baseUrl}/league/${leagueId}/transactions/${week}`);
       data.forEach(t => {
         const date = new Date(t.created * 1000).toLocaleString();
-        html += `<tr><td>${t.type}</td><td>${date}</td><td>${JSON.stringify(t)}</td></tr>`;
+        html += `<tr><td>${week}</td><td>${t.type}</td><td>${date}</td><td>${JSON.stringify(t)}</td></tr>`;
       });
-      html += "</table>";
-      document.getElementById("transactionsTable").innerHTML = html;
+    } catch (e) {
+      console.log(`No data for week ${week}`);
     }
+  }
+  html += "</table>";
+  document.getElementById("transactionsTable").innerHTML = html;
+}
+
 
     async function init() {
       try {
