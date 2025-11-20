@@ -72,7 +72,7 @@
       document.getElementById("rostersTable").innerHTML = html;
     }
 
-  async function loadStandings() {
+    async function loadStandings() {
   const rosters = await fetchJson(`${baseUrl}/league/${leagueId}/rosters`);
   const users = await fetchJson(`${baseUrl}/league/${leagueId}/users`);
   const userMap = {};
@@ -91,9 +91,7 @@
   html += "</table>";
   document.getElementById("standingsTable").innerHTML = html;
 }
-
-
-
+ 
     async function loadTransactions() {
   let html = "<table><tr><th>Week</th><th>Type</th><th>Date</th><th>Details</th></tr>";
   for (let week = 1; week <= 18; week++) {
