@@ -82,8 +82,8 @@ users.forEach(u => userMap[u.user_id] = u.display_name || u.username);
       rosters.sort((a,b) => b.settings.wins - a.settings.wins)
              .forEach(r => {
                 const owner = userMap[r.owner_id] || r.owner_id;
-                html += `<tr><td>${owner}</td><td>${r.settings.wins}</td><td>${r.settings.losses}</td><td>${r.settings.points_for.toFixed(2)}</td></tr>`;
-             });
+                const pf = r.settings.points_for ?? 0;
+html += `<tr><td>${owner}</td><td>${r.settings.wins}</td><td>${r.settings.losses}</td><td>${pf.toFixed(2)}</td></tr>`;
       html += "</table>";
       document.getElementById("standingsTable").innerHTML = html;
     }
