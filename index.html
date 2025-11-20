@@ -76,12 +76,12 @@
       const rosters = await fetchJson(`${baseUrl}/league/${leagueId}/rosters`);
       const users = await fetchJson(`${baseUrl}/league/${leagueId}/users`);
       const userMap = {};
-      users.forEach(u => userMap[u.roster_id] = u.display_name || u.username);
+users.forEach(u => userMap[u.user_id] = u.display_name || u.username);
       // Sorting by wins might require more processing depending on API
       let html = "<table><tr><th>Team (Owner)</th><th>Wins</th><th>Losses</th><th>Points For</th></tr>";
       rosters.sort((a,b) => b.settings.wins - a.settings.wins)
              .forEach(r => {
-                const owner = userMap[r.roster_id] || r.roster_id;
+                const owner = userMap[r.owner_id] || r.owner_id;
                 html += `<tr><td>${owner}</td><td>${r.settings.wins}</td><td>${r.settings.losses}</td><td>${r.settings.points_for.toFixed(2)}</td></tr>`;
              });
       html += "</table>";
